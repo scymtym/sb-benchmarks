@@ -1,0 +1,41 @@
+* TODO Introduction
+
+* Writing Benchmarks
+
+  New benchmarks should be added in the appropriate file in the
+  project root directory.
+
+  All benchmarks have to use the =with-benchmark= macro to associate a
+  unique name with each test and record benchmark results with that
+  name. The macro also prevents a whole file of benchmarks from going
+  up in smoke when a single benchmark signals an error. The basic
+  syntax is
+
+#+BEGIN_SRC: lisp
+(with-benchmark (:name NAME)
+  (measuring BODY))
+#+END_SRC:
+
+  where =NAME= is either a symbol or a list of symbols. All of these
+  symbols have to be in one of the packages =keyword=, =cl= or =sb-*=
+  to make test names =READ= able in a different SBCL image.
+
+  It is often desirable to analyze how the runtime (or memory
+  allocation) of a piece of code scales in relation to some
+  parameter. For this purpose, the =with-benchmark= macro accepts the
+  =:parameters= keyword parameter::
+
+#+BEGIN_SRC: lisp
+(with-benchmark (:name name
+                 :parameters ((input-size (:expt 10 (:iota 4)))))
+  (measuring BODY-USING-INPUT-SIZE))
+#+END_SRC:
+
+  The above example causes =BODY-USING-INPUT-SIZE= to run four times
+  with =input-size= successively bound to 1, 10, 100 and 1000
+  respectively.
+
+  If possible, benchmarks should not signal warnings during
+  compilation or runtime and should not produce output in order to not
+  clutter the output of the benchmark runner and make problems easier
+  to identify.
