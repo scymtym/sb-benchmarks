@@ -15,7 +15,7 @@ if [ "$1" = "--help" ]; then
   cat <<EOF
 Run the benchmarks in this directory.
 
-Usage: run-benchmarks.sh [OPTIONS] [files]
+Usage: run-benchmarks.sh [OPTIONS] [BENCHMARK FILES]
 
 Valid options are as follows:
 
@@ -30,9 +30,26 @@ Valid options are as follows:
                          omitted, the report is written to standard
                          output.
 
+  --compare-to COMMIT    Include a comparison of the generated benchmark
+                         results against results recorded for COMMIT.
+
   --no-color             Disable coloring of results.
 
-If no benchmark files are specified, runs all benchmarks.
+If no BENCHMARK FILES are specified, run all benchmarks (i.e. files
+matching the pattern *.benchmark.lisp).
+
+The environment variable SBCL_WC has be set to the name of a directory
+containing a SBCL working copy.
+
+Comparision example (assuming SBCL working copy is initial pwd and
+sb-benchmarks resides in the benchmarks sub-directory):
+
+  $ export SBCL_WC=$(pwd)
+  $ git checkout AAAAAAAA && sh make.sh
+  $ ( cd benchmarks && ./run-benchmarks ) # record results for commit AAAAAAAA
+  $ git checkout BBBBBBBB && sh make.sh
+  $ ( cd benchmarks && ./run-benchmarks --report-style plot --compate-to AAAAAAAA )
+
 EOF
   exit 0
 fi
