@@ -2,7 +2,7 @@
 
 (defun test-name->filename (name)
   (substitute-if
-   #\- (lambda (c) (member c '(#\( #\) #\Space)))
+   #\- (lambda (c) (member c '(#\( #\) #\Space #\/)))
    (string-trim
     '(#\( #\)) (string-downcase (princ-to-string name)))))
 
