@@ -350,10 +350,15 @@
                :code-size code-sizes
                :parameters parameters)
               *results*)
-        (log-msg "~:[Done ~S~:;~2@TDone ~:*~S~*~] => ~A s; ~D byte~:P [~D measurement~:P]"
+        (log-msg "~:[Done ~S~:;~2@TDone ~:*~S~*~] ~
+                  => ~A s; ~
+                  ~D byte~:P consed; ~
+                  ~D byte~:P code ~
+                  [~D measurement~:P]"
                  parameters name
                  (measurement-median runtimes)
                  (measurement-median bytes-consed)
+                 (measurement-median code-sizes)
                  (length (measurement-values runtimes)))))))
 
 (defmacro with-benchmark ((&key
