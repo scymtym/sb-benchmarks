@@ -921,8 +921,8 @@
 ;;; FFT -- This is an FFT benchmark written by Harry Barrow.  It tests a
 ;;; variety of floating point operations, including array references.
 
-(defvar re (make-array 1025 :element-type 'single-float :initial-element 0.0))
-(defvar im (make-array 1025 :element-type 'single-float :initial-element 0.0))
+(defvar re (make-array 1025 :element-type 'single-float :initial-element 0.0f0))
+(defvar im (make-array 1025 :element-type 'single-float :initial-element 0.0f0))
 
 
 ;areal = real part
@@ -940,12 +940,12 @@
          (le1 0)
          (ip 0)
          (nv2 0)
-         (ur 0.0)
-         (ui 0.0)
-         (wr 0.0)
-         (wi 0.0)
-         (tr 0.0)
-         (ti 0.0))
+         (ur 0.0f0)
+         (ui 0.0f0)
+         (wr 0.0f0)
+         (wi 0.0f0)
+         (tr 0.0f0)
+         (ti 0.0f0))
     (declare (fixnum i j k m n le le1 ip nv2)
              (single-float ur ui wr wi tr ti))
     (setq n (array-dimension ar 0)
@@ -983,10 +983,10 @@
         ((> l m))                       ;loop thru stages
       (setq le (expt 2 l)
             le1 (floor le 2)
-            ur 1.0
-            ui 0.0
-            wr (cos (/ 3.14159265 le1))
-            wi (sin (/ 3.14159265 le1)))
+            ur 1.0f0
+            ui 0.0f0
+            wr (cos (/ 3.14159265f0 le1))
+            wi (sin (/ 3.14159265f0 le1)))
       (do ((j 1 (1+ j)))
           ((> j le1))           ;loop thru butterflies
         (do ((i j (+ i le)))
@@ -1792,5 +1792,5 @@
 
 ;; entry point
 (with-benchmark (:name (:cl-bench :gabriel)
-                 :parameters ((foo 22)))
+                 :parameters ((foo (22))))
   (measuring (triangle foo)))
